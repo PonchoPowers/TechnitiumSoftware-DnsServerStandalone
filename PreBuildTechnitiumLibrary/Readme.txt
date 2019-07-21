@@ -1,0 +1,1 @@
+﻿Ensures the required dlls are built first so that no modifications have to be made to the original source files.

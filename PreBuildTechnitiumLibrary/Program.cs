@@ -1,0 +1,9 @@
+﻿namespace PreBuildTechnitiumLibrary
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+        }
+    }
+}
