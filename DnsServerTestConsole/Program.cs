@@ -1,4 +1,5 @@
 ﻿using DnsServerCore;
+using DnsServerCore.Dns;
 using DnsServerCore.Dhcp;
 using System;
 using System.IO;
@@ -17,15 +18,22 @@ namespace DnsServerConsole
             logsDirectory = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "logs";
 
             Console.WriteLine("Config directory: " + configDirectory);
-            Console.WriteLine("Logs directory: " + configDirectory);
+            Console.WriteLine("Logs directory: " + logsDirectory);
+
+            if (!Directory.Exists(configDirectory))
+                Directory.CreateDirectory(configDirectory);
 
             if (!Directory.Exists(logsDirectory))
-            {
                 Directory.CreateDirectory(logsDirectory);
-            }
+
+            var logManager = new LogManager(logsDirectory);
+
+            var dnsServer = new DnsServer();
+            dnsServer.LogManager = logManager;
+            dnsServer.Start();
 
             var dhcpServer = new DhcpServer(configDirectory);
-            dhcpServer.LogManager = new LogManager(logsDirectory);
+            dhcpServer.LogManager = logManager;
             dhcpServer.Start();
 
             // When a new instance of DhcpServer is created, a default
